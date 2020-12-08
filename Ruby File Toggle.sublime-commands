@@ -1,0 +1,25 @@
+[
+  {
+    "caption": "Ruby File Toggle: Settings",
+    "command": "edit_settings",
+    "args": {
+      "base_file": "${packages}/Ruby File Toggle/Ruby File Toggle.sublime-settings",
+      "default": "{\n\t$0\n}\n"
+    }
+  },
+  {
+    "caption": "Ruby File Toggle: Key Bindings",
+    "command": "edit_settings",
+    "args": {
+      "base_file": "${packages}/Ruby File Toggle/Default.sublime-keymap",
+      "default": "[\n\t$0\n]\n"
+    }
+  },
+  {
+    "caption": "Ruby File Toggle: Open Readme",
+    "command": "open_file",
+    "args": {
+      "file": "${packages}/Ruby File Toggle/README.md"
+    }
+  }
+]

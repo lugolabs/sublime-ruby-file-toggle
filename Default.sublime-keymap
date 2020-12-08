@@ -1,0 +1,13 @@
+[
+  {
+    "keys": ["super+."],
+    "command": "ruby_file_toggle",
+    "context": [
+      {
+        "key": "selector",
+        "operator": "equal",
+        "operand": "source.ruby"
+      }
+    ]
+  }
+]
