@@ -102,7 +102,8 @@ class RubyFileToggleCommand(sublime_plugin.WindowCommand):
             full_path = os.path.join(folder, path)
 
             if os.path.isfile(full_path):
-                return self.window.open_file(full_path)
+                # return self.window.open_file(full_path)
+                return self.switch_to(full_path)
 
         debug("implementation file doesn't exist")
 
@@ -159,21 +160,37 @@ class RubyFileToggleCommand(sublime_plugin.WindowCommand):
 
         if os.path.isfile(full_path):
             debug("opening existing file")
-            self.window.open_file(full_path)
+            self.switch_to(full_path)
             return
 
-        if not sublime.ok_cancel_dialog(
-                CREATE_TEST_FILE_MESSAGE % relative_path):
-            debug("user doesn't want to create file")
-            return
+        self.window.run_command("open_rspec_file")
 
-        debug("user wants to create a new file")
-        self.make_dir_for_path(full_path)
+        # if not sublime.ok_cancel_dialog(
+        #         CREATE_TEST_FILE_MESSAGE % relative_path):
+        #     debug("user doesn't want to create file")
+        #     return
 
-        with open(full_path, "w+") as io:
-            print(TEST_TEMPLATE % framework_suffix, file=io)
+        # debug("user wants to create a new file")
+        # self.make_dir_for_path(full_path)
 
-        self.window.open_file(full_path)
+        # with open(full_path, "w+") as io:
+        #     print(TEST_TEMPLATE % framework_suffix, file=io)
+
+        # self.window.open_file(full_path)
+
+    def switch_to(self, file_path):
+        group = self.other_group_in_pair()
+        file_view = self.window.open_file(file_path)
+        self.window.run_command("move_to_group", { "group": group })
+        debug("Opened: " + file_path)
+        return True
+
+    def other_group_in_pair(self):
+        if self.window.active_group() % 2 == 0:
+            target_group = self.window.active_group() + 1
+        else:
+            target_group = self.window.active_group() - 1
+        return min(target_group, self.window.num_groups() - 1)
 
     def make_dir_for_path(self, filepath):
         basedir = os.path.dirname(filepath)
